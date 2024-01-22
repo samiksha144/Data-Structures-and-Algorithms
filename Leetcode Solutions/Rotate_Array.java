@@ -15,7 +15,7 @@
 
 // Input: nums = [-1,-100,3,99], k = 2
 // Output: [3,99,-1,-100]
-// Explanation: 
+// Explanation:
 // rotate 1 steps to the right: [99,-1,-100,3]
 // rotate 2 steps to the right: [3,99,-1,-100]
 
@@ -25,7 +25,7 @@
 // 1 <= nums.length <= 105
 // -231 <= nums[i] <= 231 - 1
 // 0 <= k <= 105
- 
+
 // Follow up:
 
 // Try to come up with as many solutions as you can. There are at least three different ways to solve this problem.
@@ -39,37 +39,42 @@ public class Solution {
         int n = nums.length;
         k = k % n; // Handle cases where k is greater than the length of the array
         int[] result = new int[n];
-        
+
         for (int i = 0; i < n; i++) {
             result[(i + k) % n] = nums[i];
         }
-        
+
         System.arraycopy(result, 0, nums, 0, n); // Update the original array in-place
     }
 }
 
+// Time Complexity: O(n) - We iterate through the entire array once.
+// Space Complexity: O(n) - We use extra space to store the rotated array.
+
+
+
 
 //Solution 2: Reverse Three Times
 
-class Solution 
+class Solution
 {
-    public void rotate(int[] nums, int k) 
+    public void rotate(int[] nums, int k)
     {
-        
+
     int n = nums.length;
         k = k % n;
 
-        
+
         reverse(nums, 0, n - 1);
-       
+
         reverse(nums, 0, k - 1);
-        
+
         reverse(nums, k, n - 1);
     }
 
-    public static void reverse(int[] nums, int start, int end) 
+    public static void reverse(int[] nums, int start, int end)
     {
-        while (start < end) 
+        while (start < end)
         {
             int temp = nums[start];
             nums[start] = nums[end];
@@ -80,6 +85,12 @@ class Solution
     }
 }
 
+// Time Complexity: O(n) - We reverse the entire array and then reverse two subarrays.
+// Space Complexity: O(1) - We use constant space for temporary variables.
+
+
+
+
 
 //Solution 3: Using Cyclic Replacements
 
@@ -87,12 +98,12 @@ public class Solution {
     public void rotate(int[] nums, int k) {
         int n = nums.length;
         k = k % n;
-        
+
         int count = 0;
         for (int start = 0; count < n; start++) {
             int current = start;
             int prev = nums[start];
-            
+
             do {
                 int next = (current + k) % n;
                 int temp = nums[next];
@@ -104,3 +115,6 @@ public class Solution {
         }
     }
 }
+
+// Time Complexity: O(n) - We visit each element of the array once.
+// Space Complexity: O(1) - We use constant space for temporary variables.
