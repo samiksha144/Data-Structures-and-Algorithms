@@ -93,3 +93,8 @@ class Solution
         return ans;  // return the answer
     }
 }
+
+
+// Time Complexity: As we finding the range first then pushing the elements. So the time complexity is O(N), N is number of given elements.
+
+// Space Complexity: As we are storing the elements in a vector so the space complexity is O(N), N is number of elements.
