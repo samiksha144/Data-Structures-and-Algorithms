@@ -11,6 +11,8 @@
 // rotate 1 steps to the right: [7,1,2,3,4,5,6]
 // rotate 2 steps to the right: [6,7,1,2,3,4,5]
 // rotate 3 steps to the right: [5,6,7,1,2,3,4]
+
+
 // Example 2:
 
 // Input: nums = [-1,-100,3,99], k = 2
@@ -34,13 +36,16 @@
 
 //Solution 1: Using Extra Space
 
-public class Solution {
-    public void rotate(int[] nums, int k) {
+public class Solution 
+{
+    public void rotate(int[] nums, int k) 
+    {
         int n = nums.length;
         k = k % n; // Handle cases where k is greater than the length of the array
         int[] result = new int[n];
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) 
+        {
             result[(i + k) % n] = nums[i];
         }
 
@@ -94,24 +99,28 @@ class Solution
 
 //Solution 3: Using Cyclic Replacements
 
-public class Solution {
+public class Solution 
+{
     public void rotate(int[] nums, int k) {
         int n = nums.length;
         k = k % n;
 
         int count = 0;
-        for (int start = 0; count < n; start++) {
+        for (int start = 0; count < n; start++) 
+        {
             int current = start;
             int prev = nums[start];
 
-            do {
+            do 
+            {
                 int next = (current + k) % n;
                 int temp = nums[next];
                 nums[next] = prev;
                 prev = temp;
                 current = next;
                 count++;
-            } while (start != current);
+            } 
+            while (start != current);
         }
     }
 }
