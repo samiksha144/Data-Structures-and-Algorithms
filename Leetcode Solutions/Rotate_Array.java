@@ -41,17 +41,21 @@ Could you do it in-place with O(1) extra space? */
   8.] After the outer loop completes (k iterations), the array nums will be rotated to the right by k steps.
  */
 
-public class Solution {
-    public void rotate(int[] nums, int k) {
+public class Solution 
+{
+    public void rotate(int[] nums, int k) 
+    {
         int n = nums.length;
 
         // Handle the case when k is greater than array length
         k = k % n;
 
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++) 
+        {
             // Rotate the array one step to the right
             int temp = nums[n - 1];
-            for (int j = n - 1; j > 0; j--) {
+            for (int j = n - 1; j > 0; j--) 
+            {
                 nums[j] = nums[j - 1];
             }
             nums[0] = temp;
