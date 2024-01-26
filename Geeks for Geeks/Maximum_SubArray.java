@@ -1,45 +1,132 @@
-// Find out the maximum sub-array of non negative numbers from an array.
+/*Find out the maximum sub-array of non negative numbers from an array.
 
-// The sub-array should be contiguous i.e., a sub-array created by choosing the second and fourth element and skipping the third element is invalid.
+The sub-array should be contiguous i.e., a sub-array created by choosing the second and fourth element and skipping the third element is invalid.
 
-// Maximum sub-array is defined in terms of the sum of the elements in the sub-array. Sub-array A is greater than sub-array B if sum(A) > sum(B).
+Maximum sub-array is defined in terms of the sum of the elements in the sub-array. Sub-array A is greater than sub-array B if sum(A) > sum(B).
 
-// Example:
-// a = [1, 2, 5, -7, 2, 3]
-// The two sub-arrays are [1, 2, 5] [2, 3].
-// The answer is [1, 2, 5] as its sum is larger than [2, 3]
+Example:
+a = [1, 2, 5, -7, 2, 3]
+The two sub-arrays are [1, 2, 5] [2, 3].
+The answer is [1, 2, 5] as its sum is larger than [2, 3]
 
-// NOTE: If there is a tie, then compare with segment's length and return segment which has maximum length.
-// If there is still a tie, then return the segment with minimum starting index.
-// If no such subarray is present return "-1"
+NOTE: If there is a tie, then compare with segment's length and return segment which has maximum length.
+If there is still a tie, then return the segment with minimum starting index.
+If no such subarray is present return "-1"
 
-// Example 1:
+Example 1:
 
-// Input:
-// n = 3
-// a[] = {1, 2, 3}
-// Output: 1 2 3
-// Explanation: In the given array every
-// element is non-negative.
+Input:
+n = 3
+a[] = {1, 2, 3}
+Output: 1 2 3
+Explanation: In the given array every
+element is non-negative.
 
 
-// Example 2:
+Example 2:
 
-// Input:
-// n = 2
-// a[] = {-1, 2}
-// Output: 2
-// Explanation: The only subarray [2] is
-// the answer.
+Input:
+n = 2
+a[] = {-1, 2}
+Output: 2
+Explanation: The only subarray [2] is
+the answer.
  
 
-// Your Task:
-// Complete the function findSubarray() which takes the array a and the size of the array, n, as input parameters and returns an array representing the answer. If there is no subarray return an array of length 1 containing -1 only. You don't to print answer or take inputs.
+Your Task:
+Complete the function findSubarray() which takes the array a and the size of the array, n, as input parameters and returns an array representing the answer. If there is no subarray return an array of length 1 containing -1 only. You don't to print answer or take inputs.
 
-// Expected Time Complexity: O(N)
-// Expected Auxiliary Space: O(1)
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+*/
 
 
+/*Solution 1 : Brute force approach
+
+Implementation steps :
+
+1.] maxSum: Initialize to Integer.MIN_VALUE to keep track of the maximum sum found.
+2.] start: Initialize to -1, indicating the start index of the maximum subarray.
+3.] end: Initialize to -1, indicating the end index of the maximum subarray.
+4.] The outer loop (indexed by i) iterates over all possible starting indices of the subarray.
+5.] The inner loop (indexed by j) iterates over all possible ending indices of the subarray, starting from the current i.
+6.] Calculate the sum of the subarray from index i to j using currentSum.
+7.] If currentSum is greater than maxSum, update maxSum, start, and end with the current values of currentSum, i, and j respectively.
+8.] After the loops, create an ArrayList<Integer> named result to store the elements of the subarray with the maximum sum.
+9.] Use a loop to copy elements from the a array, starting from the start index and ending at the end index, into the result ArrayList.
+10.] Return the result ArrayList containing the subarray with the maximum sum.
+
+*/
+
+ class Solution
+ {
+     ArrayList<Integer> findSubarray(int a[], int n) 
+     {
+         n = a.length;
+         int maxSum = Integer.MIN_VALUE;
+         int start = -1;
+         int end = -1;
+ 
+         for (int i = 0; i < n; i++) 
+         {
+             int currentSum = 0;
+             for (int j = i; j < n; j++) 
+             {
+                 currentSum += a[j];
+                 if (currentSum > maxSum) 
+                 {
+                     maxSum = currentSum;
+                     start = i;
+                     end = j;
+                 }
+             }
+         }
+ 
+         // Create an ArrayList to store the subarray with the maximum sum
+         ArrayList<Integer> result = new ArrayList<>();
+         for (int i = start; i <= end; i++) 
+         {
+             result.add(a[i]);
+         }
+ 
+         // Return the ArrayList
+         return result;
+     }
+ }
+
+/*
+Time complexity :
+The time complexity of the findSubarray method is O(n^2) because there are two nested loops. The outer loop runs n times, and the inner loop runs n-i times for each iteration of the outer loop. Therefore, the total number of iterations is n + (n-1) + (n-2) + ... + 1, which is equal to n(n+1)/2, resulting in a time complexity of O(n^2).
+
+Space complexity :
+The space complexity of the findSubarray method is O(n) because the size of the result ArrayList is proportional to the size of the subarray with the maximum sum. In the worst case, the subarray could contain all n elements of the input array, resulting in a space complexity of O(n).
+*/
+
+ 
+
+
+/* Solution 2 : 
+
+Implementation steps :
+
+1.] Initialize max_sum to -1, which will store the maximum sum found.
+2.] Initialize cur_sum to 0, which will store the current sum of the elements in the current range.
+3.] Initialize max_range_left and max_range_right to -1, representing the indices of the maximum sum subarray.
+4.] Initialize cur_range_left and cur_range_right to 0, representing the current indices of the subarray being considered.
+5.] Use a while loop to iterate through the array until cur_range_right reaches the end of the array (n).
+6.] Inside the loop:
+If the current element is negative, update cur_range_left to the next element, and reset cur_sum to 0.
+If the current element is non-negative, add it to cur_sum.
+Update max_sum, max_range_left, and max_range_right if the current sum is greater than max_sum.
+If the current sum is equal to max_sum, update max_range_left and max_range_right if the current range is larger than the previous max range.
+7.] After the loop, check if max_range_left and max_range_right are still -1. If they are, there is no valid subarray with a positive sum. In this case, add -1 to the result ArrayList and return it.
+8.] If not, create a new ArrayList called ans to store the elements of the subarray.
+9.] Use a for loop to iterate from max_range_left to max_range_right and add the corresponding elements to the ans ArrayList.
+10.] Return the ans ArrayList containing the elements of the subarray with the maximum sum.
+
+ */
+
+ 
 class Solution
 {
 
